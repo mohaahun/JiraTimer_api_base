@@ -1,7 +1,5 @@
 package hello;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 public class getData {
     private static DateTimeFormatter jiraDateformat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    public JsonArray accessAPI(String loginUserName, String sdate, String edate, String qtext) {
+    public JSONArray accessAPI(String loginUserName, String sdate, String edate, String qtext) {
 
         //get formatted times
         ZonedDateTime d1time = ZonedDateTime.parse(sdate + "T00:00:00+02:00");
@@ -23,7 +21,7 @@ public class getData {
 
         //search issues that have appropriate worklog entrie(s)
         String searchPart = "?jql=worklogDate>=" + sdate + "&worklogDate<=" + edate + "&" + qtext;
-        searchPart.replaceAll("=","%3D");
+        searchPart.replaceAll("=", "%3D");
         //get all issues between the dates with authorization
         urlConnector urlConnect = new urlConnector();
 
@@ -55,21 +53,18 @@ public class getData {
                         String issueKey = temp.get("key").toString();
                         String issueSummary = temp.getJSONObject("fields").get("summary").toString();
                         String user = ((JSONObject) logs.get(i)).getJSONObject("updateAuthor").get("displayName").toString();
-                        String timeSpent = ((JSONObject) logs.get(i)).get("timeSpent").toString();
+                        int timeSpent = (int) ((JSONObject) logs.get(i)).get("timeSpentSeconds");
                         String dateAndTimeOfEdit = ((JSONObject) logs.get(i)).get("updated").toString();
                         worklogs.add(new Workentries(project, issueKey, issueSummary, user, startTimeOfWorklog, timeSpent, dateAndTimeOfEdit));
                     }
                 }
             }
-            JsonArray workarray = new JsonArray();
-            for(int i=0; i<worklogs.size(); i++){
-                //entries.put(worklogs.get(i).getJSONWorklog());
-                JsonObject tempjson = worklogs.get(i).getJSONWorklog();
-                workarray.add(tempjson);
-                System.out.println(tempjson);
-            }
+            JSONArray workarray = new JSONArray();
+            for (int i = 0; i < worklogs.size(); i++) {
 
-            //return entries;
+                JSONObject tempjson = worklogs.get(i).getJSONWorklog();
+                workarray.put(tempjson);
+            }
             return workarray;
 
 

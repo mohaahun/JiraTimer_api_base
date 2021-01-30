@@ -1,6 +1,6 @@
 package hello;
 
-import com.google.gson.JsonObject;
+import org.json.JSONObject;
 
 public class Workentries {
 
@@ -9,20 +9,20 @@ public class Workentries {
     String issueSummary = "";
     String user = "";
     String startTimeOfWorklog = "";
-    String TimeSpent = "";
+    int TimeSpent = 0;
     String dateAndTimeOfEdit = "";
 
-    Workentries(){
+    Workentries() {
         this.project = "";
         this.issueKey = "";
         this.issueSummary = "";
         this.user = "";
         this.startTimeOfWorklog = "";
-        this.TimeSpent = "";
+        this.TimeSpent = 0;
         this.dateAndTimeOfEdit = "";
     }
 
-    Workentries(String iproject, String iissueKey, String iissueSummary, String iuser, String istartTimeOfWorklog, String itimeSpent, String idateAndTimeOfEdit){
+    Workentries(String iproject, String iissueKey, String iissueSummary, String iuser, String istartTimeOfWorklog, int itimeSpent, String idateAndTimeOfEdit) {
         this.project = iproject;
         this.issueKey = iissueKey;
         this.issueSummary = iissueSummary;
@@ -32,16 +32,16 @@ public class Workentries {
         this.dateAndTimeOfEdit = idateAndTimeOfEdit;
     }
 
-    public JsonObject getJSONWorklog(){
+    public JSONObject getJSONWorklog() {
 
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("project",this.project);
-        jsonObject.addProperty("issueKey",this.issueKey);
-        jsonObject.addProperty("issueSummary",this.issueSummary);
-        jsonObject.addProperty("user",this.user);
-        jsonObject.addProperty("startTimeOfWorklog",this.startTimeOfWorklog);
-        jsonObject.addProperty("TimeSpent",this.TimeSpent);
-        jsonObject.addProperty("dateAndTimeOfEdit",this.dateAndTimeOfEdit);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("project", this.project);
+        jsonObject.put("issueKey", this.issueKey);
+        jsonObject.put("issueSummary", this.issueSummary);
+        jsonObject.put("user", this.user);
+        jsonObject.put("startTimeOfWorklog", this.startTimeOfWorklog);
+        jsonObject.put("TimeSpent", this.TimeSpent);
+        jsonObject.put("dateAndTimeOfEdit", this.dateAndTimeOfEdit);
 
 
         return jsonObject;
